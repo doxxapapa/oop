@@ -16,21 +16,18 @@ public class TeglalapTomb {
 		
 		System.out.println("______________________________________");
 		
-		int min_teruletu_teglalap_indexe = 0;
+		int minindex= 0;
 		for (int i = 1; i < teglalaptomb.length; i++) {
-			if(teglalaptomb[min_teruletu_teglalap_indexe].teruletNagyobbMint(teglalaptomb[i])){
-				min_teruletu_teglalap_indexe=1;
+			if(teglalaptomb[minindex].teruletNagyobbMint(teglalaptomb[i])){
+				minindex=i;
 				
 				
 			}
 			
-		}System.out.println(teglalaptomb[min_teruletu_teglalap_indexe]);
+		}System.out.println(teglalaptomb[minindex]);
 
 	}
 	
-	class oldalHossz{
-		int a;
-		int b;
-	}
+	
 
 }

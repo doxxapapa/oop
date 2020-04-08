@@ -1,0 +1,59 @@
+ #include <sys/types.h>
+  #include <sys/wait.h>
+  #include <unistd.h>
+  #include <time.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+
+
+int main()
+{
+    printf("Main PID: %d\n", getpid());
+    
+    int child[8];
+    int status, i = 0, j = 0;
+    
+    for( i=0;i<2;i++){
+        
+        child[i] = fork();
+        if(child[i] == 0 /*|| child[i] == 1*/ ) //gyerek processz
+        {
+            
+            printf("gyerek vagyok, pidem: %d\n", getpid());
+            
+            for( j = 0; j < 3; j++)
+            {
+                
+                child[j] = fork();
+                sleep(1);
+                if(child[j] == 0)
+                {
+                   
+                    printf("%d.%d Unoka vagyok, pidem: %d\n", i,j,getpid());
+                    exit(EXIT_SUCCESS);
+                }
+                
+            }
+            for( j = 0; j < 3; j++)
+            {
+                sleep(1);
+                printf("Unoka megszűnik:%d.%d, PID: %d\n",i,j, child[j]);
+                waitpid(child[j], NULL, 0);
+                
+            }
+            
+           exit(EXIT_SUCCESS);
+        }
+    }
+    sleep(1);
+    for( i = 0; i < 2; i++)
+    {
+        
+        printf("Gyerek megszűnik:%d, PID: %d\n",i, child[i]);
+        waitpid(child[i], NULL, 0);
+        
+    }
+    printf("Szülő leáll, PID: %d\n", getpid());
+    sleep(1);
+    exit(EXIT_SUCCESS);
+}
